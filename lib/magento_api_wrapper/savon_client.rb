@@ -59,7 +59,7 @@ module MagentoApiWrapper
       }
     end
 
-    #Use MagentoApiWrapper::Api magento_url as endpoint
+    # Use MagentoApiWrapper::Api magento_url as endpoint
     def base_url
       "#{@magento_url}/api/v2_soap?wsdl=1"
     end

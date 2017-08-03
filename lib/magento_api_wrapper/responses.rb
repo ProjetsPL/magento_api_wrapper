@@ -77,7 +77,7 @@ module MagentoApiWrapper
     end
 
     def billing_address
-      result[:billing_adress]
+      result[:billing_address]
     end
 
     def payment_info
@@ -203,6 +203,20 @@ module MagentoApiWrapper
 
     def success?
       #true or false
+    end
+  end
+
+  class CustomerAddressInfo < MagentoApiWrapper::Response
+    def initialize(response)
+      super
+    end
+
+    def result
+      @document[:customer_address_info_response][:result]
+    end
+
+    def collection
+      result[:item]
     end
   end
 end
