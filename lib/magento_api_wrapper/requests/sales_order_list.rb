@@ -73,30 +73,33 @@ module MagentoApiWrapper::Requests
     end
 
     def add_complex_filters(custom_filters)
-      complex_filters.each do |cfilter|
-        custom_filters[:attributes!] = {
-          "complex_filter" => {
-            "SOAP-ENC:arrayType" => "ns1:complexFilter[2]",
-            "xsi:type" => "ns1:complexFilterArray"
-          }
+      custom_filters[:attributes!] = {
+        "complex_filter" => {
+          "SOAP-ENC:arrayType" => "ns1:complexFilter[2]",
+          "xsi:type" => "ns1:complexFilterArray"
         }
-        custom_filters["complex_filter"] = {
-          item: {
-            key: cfilter[:key],
-            value: {
-              key: cfilter[:operator],
-              value: cfilter[:value]
-            },
-            :attributes! => {
-              key: { "xsi:type" => "xsd:string" },
-              value: { "xsi:type" => "xsd:associativeEntity" }
-            },
+      }
+      custom_filters["complex_filter"] = {
+        item: [],
+        :attributes! => {
+          item: { "xsi:type" => "ns1:complexFilter" },
+        }
+      }
+
+      complex_filters.each do |cfilter|
+        custom_filters["complex_filter"][:item] << {
+          key: cfilter[:key],
+          value: {
+            key: cfilter[:operator],
+            value: cfilter[:value]
           },
           :attributes! => {
-            item: { "xsi:type" => "ns1:complexFilter" },
+            key: { "xsi:type" => "xsd:string" },
+            value: { "xsi:type" => "xsd:associativeEntity" }
           },
         }
       end
+
       custom_filters
     end
 
